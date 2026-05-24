@@ -1,0 +1,817 @@
+Q ) process system calls 
+#include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+ int main() {
+ pid_t pid;
+ pid = fork();
+ if (pid < 0) {
+ printf("Fork failed!\n");
+ exit(1);
+ } else if (pid == 0) {
+ printf("This is the child process.\n");
+ printf("Child Process ID: %d\n", getpid());
+ printf("Parent Process ID: %d\n", getppid());
+ } else {
+ printf("This is the parent process.\n");
+ printf("Parent Process ID: %d\n", getpid());
+ printf("Child Process ID: %d\n", pid);
+ }
+ return 0;
+ }
+Q) first come first serve 
+#include <stdio.h>
+int i;
+int findWaitingTime(int processes[], int n, int burstTime[], int waitingTime[])
+{
+    waitingTime[0] = 0;
+    for (i = 1; i < n; i++)
+    {
+        waitingTime[i] = waitingTime[i - 1] + burstTime[i - 1];
+    }
+}
+int findTurnAroundTime(int processes[], int n, int burstTime[], int waitingTime[], int turnAroundTime[])
+{
+    for (i = 0; i < n; i++)
+    {
+        turnAroundTime[i] = waitingTime[i] + burstTime[i];
+    }
+}
+int findAverageTime(int processes[], int n, int burstTime[])
+{
+    int waitingTime[n], turnAroundTime[n], totalWaitingTime = 0, totalTurnAroundTime = 0;
+    findWaitingTime(processes, n, burstTime, waitingTime);
+    findTurnAroundTime(processes, n, burstTime, waitingTime, turnAroundTime);
+    printf("Processes \t WaitingTime \t BurstTime \t TurnAroundTime");
+    printf("\n");
+    for (i = 0; i < n; i++)
+    {
+        totalWaitingTime = totalWaitingTime + waitingTime[i];
+        totalTurnAroundTime = totalTurnAroundTime + turnAroundTime[i];
+        printf("%d \t %d \t %d \t %d", processes[i], waitingTime[i], burstTime[i], turnAroundTime[i]);
+        printf("\n");
+    }
+    printf("\n");
+    printf("Average Waiting Time: %.2f", (float)totalWaitingTime / n);
+    printf("\n Average TurnAround Time: %.2f", (float)totalTurnAroundTime / n);
+}
+int main()
+{
+    int n;
+    printf("Enter the number of Process: ");
+    scanf("%d", &n);
+    int processes[n], burstTime[n];
+    for (i = 0; i < n; i++)
+    {
+        processes[i] = i + 1;
+        printf("Enter the Burst Time for Process %d : ", i + 1);
+        scanf("%d", &burstTime[i]);
+    }
+    findAverageTime(processes, n, burstTime);
+    return 0;
+}
+Q) io system calls 
+#include<stdio.h>
+#include<stdlib.h>//used for functions like exit()
+#include<fcntl.h>
+#include<unistd.h>//both are used for read,write,close,open files
+#define BUFFER_SIZE 1024// determines the number of bytes read from the source file at a time.
+int main(){
+    int sourceFile,destinationFile;
+    ssize_t bytesRead ,bytesWritten;//determines how much data is read and written in/from source&destination files
+    char buffer[BUFFER_SIZE];
+    sourceFile = open("source.txt",O_RDONLY);
+    if(sourceFile<0){
+        perror("Error while opening source File");
+        exit(1);
+    }
+    destinationFile = open("destination.txt",O_WRONLY|O_CREAT|O_TRUNC,0644);
+    //0644 making the file readable and writable by the owner, and readable by others.
+    if(destinationFile<0){
+        perror("Error while opening Destination File");
+        close(sourceFile);
+        exit(1);
+    }
+    while(bytesRead = read(sourceFile,buffer,BUFFER_SIZE)){
+        bytesWritten = write(destinationFile,buffer,bytesRead);
+    if(bytesRead != bytesWritten){
+        perror("Doesn't copied successfully");
+    }
+    close(sourceFile);
+    close(destinationFile);
+    exit(1);
+    }
+if(bytesRead < 0){ //checks whether source file is empty or not
+    perror("Error reading from source File");
+}
+close(sourceFile);
+close(destinationFile);
+printf("Successfully Copied from Source File and Written in Destination File");
+}
+Q) shortest job first 
+#include <stdio.h>
+ void findWaitingTime(int n, int burstTime[], int waitingTime[]) {
+ waitingTime[0] = 0; // Waiting time for the first process is 0
+ // Calculate waiting time for each process
+ for (int i = 1; i < n; i++) {
+ waitingTime[i] = burstTime[i- 1] + waitingTime[i- 1];
+ }
+ }
+ void findTurnaroundTime(int n, int burstTime[], int waitingTime[], int turnaroundTime[]) {
+ // Calculate turnaround time for each process
+ for (int i = 0; i < n; i++) {
+ turnaroundTime[i] = burstTime[i] + waitingTime[i];
+ }
+ }
+void findAverageTime(int n, int burstTime[]) {
+ int waitingTime[n], turnaroundTime[n];
+ int totalWaitingTime = 0, totalTurnaroundTime = 0;
+ // Sort the burst times in ascending order for SJF scheduling
+ for (int i = 0; i < n- 1; i++) {
+ for (int j = i + 1; j < n; j++) {
+ if (burstTime[i] > burstTime[j]) {
+ // Swap burstTime[i] and burstTime[j]
+ int temp = burstTime[i];
+ burstTime[i] = burstTime[j];
+ burstTime[j] = temp;
+ }
+ }
+ }
+ // Calculate waiting time for all processes
+ findWaitingTime(n, burstTime, waitingTime);
+ // Calculate turnaround time for all processes
+ findTurnaroundTime(n, burstTime, waitingTime, turnaroundTime);
+ // Display process details
+ printf("Processes\tBurst Time\tWaiting Time\tTurnaround Time\n");
+ for (int i = 0; i < n; i++) {
+ totalWaitingTime += waitingTime[i];
+ totalTurnaroundTime += turnaroundTime[i];
+ printf("%d\t\t%d\t\t%d\t\t%d\n", i + 1, burstTime[i], waitingTime[i], turnaroundTime[i]);
+ }
+ // Calculate and display average waiting time and average turnaround time
+ printf("\nAverage Waiting Time: %.2f", (float)totalWaitingTime / n);
+ printf("\nAverage Turnaround Time: %.2f\n", (float)totalTurnaroundTime / n);
+ }
+ int main() {
+ int n;
+ // Input the number of processes
+ printf("Enter the number of processes: ");
+ scanf("%d", &n);
+ int burstTime[n];
+// Input burst time for each process
+ for (int i = 0; i < n; i++) {
+ printf("Enter burst time for process %d: ", i + 1);
+ scanf("%d", &burstTime[i]);
+ }
+ // Calculate average time using SJF scheduling
+ findAverageTime(n, burstTime);
+ return 0;
+ }
+Q) process system calls 
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+ int main() {
+ pid_t pid;
+ // Create a new process
+ pid = fork();
+ if (pid < 0) {
+ // Error occurred
+ printf("Fork failed!\n");
+ exit(1);
+ } else if (pid == 0) {
+ // Child process
+ printf("This is the child process.\n");
+ printf("Child Process ID: %d\n", getpid());
+ printf("Parent Process ID: %d\n", getppid());
+ } else {
+ // Parent process
+ printf("This is the parent process.\n");
+ printf("Parent Process ID: %d\n", getpid());
+ printf("Child Process ID: %d\n", pid);
+ }
+ return 0;
+ }
+Q) priority 
+#include <stdio.h>
+ struct Process {
+ int id;
+ int burstTime;
+ int priority;
+ int waitingTime;
+ int turnaroundTime;
+ };
+ // Function to sort the processes based on priority
+ void sortProcessesByPriority(struct Process p[], int n) {
+ struct Process temp;
+ for (int i = 0; i < n- 1; i++) {
+ for (int j = i + 1; j < n; j++) {
+ if (p[i].priority > p[j].priority) {
+ temp = p[i];
+ p[i] = p[j];
+ p[j] = temp;
+ }}}}
+ // Function to calculate waiting and turnaround times
+ void calculateTimes(struct Process p[], int n) {
+ p[0].waitingTime = 0;
+ for (int i = 1; i < n; i++) {
+ p[i].waitingTime = p[i- 1].waitingTime + p[i- 1].burstTime; }
+ for (int i = 0; i < n; i++) {
+ p[i].turnaroundTime = p[i].waitingTime + p[i].burstTime;
+ }}
+ void printResults(struct Process p[], int n) {
+ printf("ID\tPriority\tBurst Time\tWaiting Time\tTurnaround Time\n");
+ for (int i = 0; i < n; i++) {
+printf("%d\t%d\t\t%d\t\t%d\t\t%d\n", p[i].id, p[i].priority, p[i].burstTime, p[i].waitingTime,
+ p[i].turnaroundTime);
+ }}
+ int main() {
+ int n;
+ printf("Enter the number of processes: ");
+ scanf("%d", &n);
+ struct Process p[n];
+ for (int i = 0; i < n; i++) {
+ printf("Enter burst time and priority for process %d: ", i + 1);
+ p[i].id = i + 1;
+ scanf("%d %d", &p[i].burstTime, &p[i].priority);
+ }
+ // Sort processes by priority
+ sortProcessesByPriority(p, n);
+ // Calculate waiting and turnaround times
+ calculateTimes(p, n);
+ // Print results
+ printResults(p, n);
+ return 0;
+ }
+Q) io system 
+#include<stdio.h>
+#include<stdlib.h>//used for functions like exit()
+#include<fcntl.h>
+#include<unistd.h>//both are used for read,write,close,open files
+#define BUFFER_SIZE 1024// determines the number of bytes read from the source file at a time.
+int main(){
+    int sourceFile,destinationFile;
+    ssize_t bytesRead ,bytesWritten;//determines how much data is read and written in/from source&destination files
+    char buffer[BUFFER_SIZE];
+    sourceFile = open("source.txt",O_RDONLY);
+    if(sourceFile<0){
+        perror("Error while opening source File");
+        exit(1);
+    }
+    destinationFile = open("destination.txt",O_WRONLY|O_CREAT|O_TRUNC,0644);
+    //0644 making the file readable and writable by the owner, and readable by others.
+    if(destinationFile<0){
+        perror("Error while opening Destination File");
+        close(sourceFile);
+        exit(1);
+    }
+    while(bytesRead = read(sourceFile,buffer,BUFFER_SIZE)){
+        bytesWritten = write(destinationFile,buffer,bytesRead);
+    if(bytesRead != bytesWritten){
+        perror("Doesn't copied successfully");
+    }
+    close(sourceFile);
+    close(destinationFile);
+    exit(1);
+    }
+if(bytesRead < 0){ //checks whether source file is empty or not
+    perror("Error reading from source File");
+}
+close(sourceFile);
+close(destinationFile);
+printf("Successfully Copied from Source File and Written in Destination File");
+}
+Q) page replacement
+#include <stdio.h>
+ int main() {
+ int frames, pages, pageFaults = 0, current = 0;
+ printf("Enter the number of frames: ");
+ scanf("%d", &frames);
+ printf("Enter the number of pages: ");
+ scanf("%d", &pages);
+ int pageString[pages];
+ printf("Enter the page reference string: ");
+ for(int i = 0; i < pages; i++) {
+ scanf("%d", &pageString[i]);
+ }
+ int frame[frames];
+ for(int i = 0; i < frames; i++) {
+ frame[i] =-1; // initialize frames as empty
+ }
+ printf("\nPage Replacement Process:\n");
+for(int i = 0; i < pages; i++) {
+ int found = 0;
+ // Check if page is already in the frame
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] == pageString[i]) {
+ found = 1;
+ break;
+ }}
+ // If page is not found in the frame, replace it using FIFO
+ if(!found) {
+ frame[current] = pageString[i];
+ current = (current + 1) % frames;
+ pageFaults++;
+ // Display frames after each page replacement
+ printf("Page %d: ", pageString[i]);
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] !=-1) {
+ printf("%d ", frame[j]);
+ } else {
+ printf("- ");
+ } }
+ printf("\n");
+ } else {
+ printf("Page %d: No page fault\n", pageString[i]);
+ }}
+ printf("\nTotal Page Faults: %d\n", pageFaults);
+ return 0;
+ }
+Q) process system 
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+ int main() {
+ pid_t pid;
+ // Create a new process
+ pid = fork();
+ if (pid < 0) {
+ // Error occurred
+ printf("Fork failed!\n");
+ exit(1);
+ } else if (pid == 0) {
+ // Child process
+ printf("This is the child process.\n");
+ printf("Child Process ID: %d\n", getpid());
+ printf("Parent Process ID: %d\n", getppid());
+ } else {
+ // Parent process
+ printf("This is the parent process.\n");
+ printf("Parent Process ID: %d\n", getpid());
+ printf("Child Process ID: %d\n", pid);
+ }
+ return 0;
+ }
+Q) page replacement 
+#include <stdio.h>
+ int main() {
+ int frames, pages, pageFaults = 0, current = 0;
+ printf("Enter the number of frames: ");
+ scanf("%d", &frames);
+ printf("Enter the number of pages: ");
+ scanf("%d", &pages);
+ int pageString[pages];
+ printf("Enter the page reference string: ");
+ for(int i = 0; i < pages; i++) {
+ scanf("%d", &pageString[i]);
+ }
+ int frame[frames];
+ for(int i = 0; i < frames; i++) {
+ frame[i] =-1; // initialize frames as empty
+ }
+ printf("\nPage Replacement Process:\n");
+for(int i = 0; i < pages; i++) {
+ int found = 0;
+ // Check if page is already in the frame
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] == pageString[i]) {
+ found = 1;
+ break;
+ }}
+ // If page is not found in the frame, replace it using FIFO
+ if(!found) {
+ frame[current] = pageString[i];
+ current = (current + 1) % frames;
+ pageFaults++;
+ // Display frames after each page replacement
+ printf("Page %d: ", pageString[i]);
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] !=-1) {
+ printf("%d ", frame[j]);
+ } else {
+ printf("- ");
+ } }
+ printf("\n");
+ } else {
+ printf("Page %d: No page fault\n", pageString[i]);
+ }}
+ printf("\nTotal Page Faults: %d\n", pageFaults);
+ return 0;
+ }
+Q) io system
+#include<stdio.h>
+#include<stdlib.h>//used for functions like exit()
+#include<fcntl.h>
+#include<unistd.h>//both are used for read,write,close,open files
+#define BUFFER_SIZE 1024// determines the number of bytes read from the source file at a time.
+int main(){
+    int sourceFile,destinationFile;
+    ssize_t bytesRead ,bytesWritten;//determines how much data is read and written in/from source&destination files
+    char buffer[BUFFER_SIZE];
+    sourceFile = open("source.txt",O_RDONLY);
+    if(sourceFile<0){
+        perror("Error while opening source File");
+        exit(1);
+    }
+    destinationFile = open("destination.txt",O_WRONLY|O_CREAT|O_TRUNC,0644);
+    //0644 making the file readable and writable by the owner, and readable by others.
+    if(destinationFile<0){
+        perror("Error while opening Destination File");
+        close(sourceFile);
+        exit(1);
+    }
+    while(bytesRead = read(sourceFile,buffer,BUFFER_SIZE)){
+        bytesWritten = write(destinationFile,buffer,bytesRead);
+    if(bytesRead != bytesWritten){
+        perror("Doesn't copied successfully");
+    }
+    close(sourceFile);
+    close(destinationFile);
+    exit(1);
+    }
+if(bytesRead < 0){ //checks whether source file is empty or not
+    perror("Error reading from source File");
+}
+close(sourceFile);
+close(destinationFile);
+printf("Successfully Copied from Source File and Written in Destination File");
+}
+Q) first come first serve 
+#include <stdio.h>
+int i;
+int findWaitingTime(int processes[], int n, int burstTime[], int waitingTime[])
+{
+    waitingTime[0] = 0;
+    for (i = 1; i < n; i++)
+    {
+        waitingTime[i] = waitingTime[i - 1] + burstTime[i - 1];
+    }
+}
+int findTurnAroundTime(int processes[], int n, int burstTime[], int waitingTime[], int turnAroundTime[])
+{
+    for (i = 0; i < n; i++)
+    {
+        turnAroundTime[i] = waitingTime[i] + burstTime[i];
+    }
+}
+int findAverageTime(int processes[], int n, int burstTime[])
+{
+    int waitingTime[n], turnAroundTime[n], totalWaitingTime = 0, totalTurnAroundTime = 0;
+    findWaitingTime(processes, n, burstTime, waitingTime);
+    findTurnAroundTime(processes, n, burstTime, waitingTime, turnAroundTime);
+    printf("Processes \t WaitingTime \t BurstTime \t TurnAroundTime");
+    printf("\n");
+    for (i = 0; i < n; i++)
+    {
+        totalWaitingTime = totalWaitingTime + waitingTime[i];
+        totalTurnAroundTime = totalTurnAroundTime + turnAroundTime[i];
+        printf("%d \t %d \t %d \t %d", processes[i], waitingTime[i], burstTime[i], turnAroundTime[i]);
+        printf("\n");
+    }
+    printf("\n");
+    printf("Average Waiting Time: %.2f", (float)totalWaitingTime / n);
+    printf("\n Average TurnAround Time: %.2f", (float)totalTurnAroundTime / n);
+}
+int main()
+{
+    int n;
+    printf("Enter the number of Process: ");
+    scanf("%d", &n);
+    int processes[n], burstTime[n];
+    for (i = 0; i < n; i++)
+    {
+        processes[i] = i + 1;
+        printf("Enter the Burst Time for Process %d : ", i + 1);
+        scanf("%d", &burstTime[i]);
+    }
+    findAverageTime(processes, n, burstTime);
+    return 0;
+}
+Q) process system
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+ int main() {
+ pid_t pid;
+ // Create a new process
+ pid = fork();
+ if (pid < 0) {
+ // Error occurred
+ printf("Fork failed!\n");
+ exit(1);
+ } else if (pid == 0) {
+ // Child process
+ printf("This is the child process.\n");
+ printf("Child Process ID: %d\n", getpid());
+ printf("Parent Process ID: %d\n", getppid());
+ } else {
+ // Parent process
+ printf("This is the parent process.\n");
+ printf("Parent Process ID: %d\n", getpid());
+ printf("Child Process ID: %d\n", pid);
+ }
+ return 0;
+ }
+Q) page replacement 
+#include <stdio.h>
+ int main() {
+ int frames, pages, pageFaults = 0, current = 0;
+ printf("Enter the number of frames: ");
+ scanf("%d", &frames);
+ printf("Enter the number of pages: ");
+ scanf("%d", &pages);
+ int pageString[pages];
+ printf("Enter the page reference string: ");
+ for(int i = 0; i < pages; i++) {
+ scanf("%d", &pageString[i]);
+ }
+ int frame[frames];
+ for(int i = 0; i < frames; i++) {
+ frame[i] =-1; // initialize frames as empty
+ }
+ printf("\nPage Replacement Process:\n");
+for(int i = 0; i < pages; i++) {
+ int found = 0;
+ // Check if page is already in the frame
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] == pageString[i]) {
+ found = 1;
+ break;
+ }}
+ // If page is not found in the frame, replace it using FIFO
+ if(!found) {
+ frame[current] = pageString[i];
+ current = (current + 1) % frames;
+ pageFaults++;
+ // Display frames after each page replacement
+ printf("Page %d: ", pageString[i]);
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] !=-1) {
+ printf("%d ", frame[j]);
+ } else {
+ printf("- ");
+ } }
+ printf("\n");
+ } else {
+ printf("Page %d: No page fault\n", pageString[i]);
+ }}
+ printf("\nTotal Page Faults: %d\n", pageFaults);
+ return 0;
+ }
+Q) io system
+#include<stdio.h>
+#include<stdlib.h>//used for functions like exit()
+#include<fcntl.h>
+#include<unistd.h>//both are used for read,write,close,open files
+#define BUFFER_SIZE 1024// determines the number of bytes read from the source file at a time.
+int main(){
+    int sourceFile,destinationFile;
+    ssize_t bytesRead ,bytesWritten;//determines how much data is read and written in/from source&destination files
+    char buffer[BUFFER_SIZE];
+    sourceFile = open("source.txt",O_RDONLY);
+    if(sourceFile<0){
+        perror("Error while opening source File");
+        exit(1);
+    }
+    destinationFile = open("destination.txt",O_WRONLY|O_CREAT|O_TRUNC,0644);
+    //0644 making the file readable and writable by the owner, and readable by others.
+    if(destinationFile<0){
+        perror("Error while opening Destination File");
+        close(sourceFile);
+        exit(1);
+    }
+    while(bytesRead = read(sourceFile,buffer,BUFFER_SIZE)){
+        bytesWritten = write(destinationFile,buffer,bytesRead);
+    if(bytesRead != bytesWritten){
+        perror("Doesn't copied successfully");
+    }
+    close(sourceFile);
+    close(destinationFile);
+    exit(1);
+    }
+if(bytesRead < 0){ //checks whether source file is empty or not
+    perror("Error reading from source File");
+}
+close(sourceFile);
+close(destinationFile);
+printf("Successfully Copied from Source File and Written in Destination File");
+}
+Q) page replavement 
+#include <stdio.h>
+ int main() {
+ int frames, pages, pageFaults = 0, current = 0;
+ printf("Enter the number of frames: ");
+ scanf("%d", &frames);
+ printf("Enter the number of pages: ");
+ scanf("%d", &pages);
+ int pageString[pages];
+ printf("Enter the page reference string: ");
+ for(int i = 0; i < pages; i++) {
+ scanf("%d", &pageString[i]);
+ }
+ int frame[frames];
+ for(int i = 0; i < frames; i++) {
+ frame[i] =-1; // initialize frames as empty
+ }
+ printf("\nPage Replacement Process:\n");
+for(int i = 0; i < pages; i++) {
+ int found = 0;
+ // Check if page is already in the frame
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] == pageString[i]) {
+ found = 1;
+ break;
+ }}
+ // If page is not found in the frame, replace it using FIFO
+ if(!found) {
+ frame[current] = pageString[i];
+ current = (current + 1) % frames;
+ pageFaults++;
+ // Display frames after each page replacement
+ printf("Page %d: ", pageString[i]);
+ for(int j = 0; j < frames; j++) {
+ if(frame[j] !=-1) {
+ printf("%d ", frame[j]);
+ } else {
+ printf("- ");
+ } }
+ printf("\n");
+ } else {
+ printf("Page %d: No page fault\n", pageString[i]);
+ }}
+ printf("\nTotal Page Faults: %d\n", pageFaults);
+ return 0;
+ }
+Q) process syetem
+#include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+ int main() {
+ pid_t pid;
+ // Create a new process
+ pid = fork();
+ if (pid < 0) {
+ // Error occurred
+ printf("Fork failed!\n");
+ exit(1);
+ } else if (pid == 0) {
+ // Child process
+ printf("This is the child process.\n");
+ printf("Child Process ID: %d\n", getpid());
+ printf("Parent Process ID: %d\n", getppid());
+ } else {
+ // Parent process
+ printf("This is the parent process.\n");
+ printf("Parent Process ID: %d\n", getpid());
+ printf("Child Process ID: %d\n", pid);
+ }
+ return 0;
+ }
+Q) shortest job
+#include <stdio.h>
+ void findWaitingTime(int n, int burstTime[], int waitingTime[]) {
+ waitingTime[0] = 0; // Waiting time for the first process is 0
+ // Calculate waiting time for each process
+ for (int i = 1; i < n; i++) {
+ waitingTime[i] = burstTime[i- 1] + waitingTime[i- 1];
+ }
+ }
+ void findTurnaroundTime(int n, int burstTime[], int waitingTime[], int turnaroundTime[]) {
+ // Calculate turnaround time for each process
+ for (int i = 0; i < n; i++) {
+ turnaroundTime[i] = burstTime[i] + waitingTime[i];
+ }
+ }
+void findAverageTime(int n, int burstTime[]) {
+ int waitingTime[n], turnaroundTime[n];
+ int totalWaitingTime = 0, totalTurnaroundTime = 0;
+ // Sort the burst times in ascending order for SJF scheduling
+ for (int i = 0; i < n- 1; i++) {
+ for (int j = i + 1; j < n; j++) {
+ if (burstTime[i] > burstTime[j]) {
+ // Swap burstTime[i] and burstTime[j]
+ int temp = burstTime[i];
+ burstTime[i] = burstTime[j];
+ burstTime[j] = temp;
+ }
+ }
+ }
+ // Calculate waiting time for all processes
+ findWaitingTime(n, burstTime, waitingTime);
+ // Calculate turnaround time for all processes
+ findTurnaroundTime(n, burstTime, waitingTime, turnaroundTime);
+ // Display process details
+ printf("Processes\tBurst Time\tWaiting Time\tTurnaround Time\n");
+ for (int i = 0; i < n; i++) {
+ totalWaitingTime += waitingTime[i];
+ totalTurnaroundTime += turnaroundTime[i];
+ printf("%d\t\t%d\t\t%d\t\t%d\n", i + 1, burstTime[i], waitingTime[i], turnaroundTime[i]);
+ }
+ // Calculate and display average waiting time and average turnaround time
+ printf("\nAverage Waiting Time: %.2f", (float)totalWaitingTime / n);
+ printf("\nAverage Turnaround Time: %.2f\n", (float)totalTurnaroundTime / n);
+ }
+ int main() {
+ int n;
+ // Input the number of processes
+ printf("Enter the number of processes: ");
+ scanf("%d", &n);
+ int burstTime[n];
+// Input burst time for each process
+ for (int i = 0; i < n; i++) {
+ printf("Enter burst time for process %d: ", i + 1);
+ scanf("%d", &burstTime[i]);
+ }
+ // Calculate average time using SJF scheduling
+ findAverageTime(n, burstTime);
+ return 0;
+ }
+Q) io system
+#include<stdio.h>
+#include<stdlib.h>//used for functions like exit()
+#include<fcntl.h>
+#include<unistd.h>//both are used for read,write,close,open files
+#define BUFFER_SIZE 1024// determines the number of bytes read from the source file at a time.
+int main(){
+    int sourceFile,destinationFile;
+    ssize_t bytesRead ,bytesWritten;//determines how much data is read and written in/from source&destination files
+    char buffer[BUFFER_SIZE];
+    sourceFile = open("source.txt",O_RDONLY);
+    if(sourceFile<0){
+        perror("Error while opening source File");
+        exit(1);
+    }
+    destinationFile = open("destination.txt",O_WRONLY|O_CREAT|O_TRUNC,0644);
+    //0644 making the file readable and writable by the owner, and readable by others.
+    if(destinationFile<0){
+        perror("Error while opening Destination File");
+        close(sourceFile);
+        exit(1);
+    }
+    while(bytesRead = read(sourceFile,buffer,BUFFER_SIZE)){
+        bytesWritten = write(destinationFile,buffer,bytesRead);
+    if(bytesRead != bytesWritten){
+        perror("Doesn't copied successfully");
+    }
+    close(sourceFile);
+    close(destinationFile);
+    exit(1);
+    }
+if(bytesRead < 0){ //checks whether source file is empty or not
+    perror("Error reading from source File");
+}
+close(sourceFile);
+close(destinationFile);
+printf("Successfully Copied from Source File and Written in Destination File");
+}
+Q) priority 
+#include <stdio.h>
+ struct Process {
+ int id;
+ int burstTime;
+ int priority;
+ int waitingTime;
+ int turnaroundTime;
+ };
+ // Function to sort the processes based on priority
+ void sortProcessesByPriority(struct Process p[], int n) {
+ struct Process temp;
+ for (int i = 0; i < n- 1; i++) {
+ for (int j = i + 1; j < n; j++) {
+ if (p[i].priority > p[j].priority) {
+ temp = p[i];
+ p[i] = p[j];
+ p[j] = temp;
+ }}}}
+ // Function to calculate waiting and turnaround times
+ void calculateTimes(struct Process p[], int n) {
+ p[0].waitingTime = 0;
+ for (int i = 1; i < n; i++) {
+ p[i].waitingTime = p[i- 1].waitingTime + p[i- 1].burstTime; }
+ for (int i = 0; i < n; i++) {
+ p[i].turnaroundTime = p[i].waitingTime + p[i].burstTime;
+ }}
+ void printResults(struct Process p[], int n) {
+ printf("ID\tPriority\tBurst Time\tWaiting Time\tTurnaround Time\n");
+ for (int i = 0; i < n; i++) {
+printf("%d\t%d\t\t%d\t\t%d\t\t%d\n", p[i].id, p[i].priority, p[i].burstTime, p[i].waitingTime,
+ p[i].turnaroundTime);
+ }}
+ int main() {
+ int n;
+ printf("Enter the number of processes: ");
+ scanf("%d", &n);
+ struct Process p[n];
+ for (int i = 0; i < n; i++) {
+ printf("Enter burst time and priority for process %d: ", i + 1);
+ p[i].id = i + 1;
+ scanf("%d %d", &p[i].burstTime, &p[i].priority);
+ }
+ // Sort processes by priority
+ sortProcessesByPriority(p, n);
+ // Calculate waiting and turnaround times
+ calculateTimes(p, n);
+ // Print results
+ printResults(p, n);
+ return 0;
+ }

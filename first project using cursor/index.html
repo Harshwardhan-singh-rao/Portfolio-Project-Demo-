@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D FPS Arena (Arrow keys + Space)</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="hud">
+      <div id="title">3D FPS Arena</div>
+      <div id="help">Arrow keys: move/turn • Space: shoot • R: restart</div>
+      <div id="stats">
+        <div>Enemy HP: <span id="enemyHp">100</span></div>
+        <div>Your HP: <span id="playerHp">100</span></div>
+      </div>
+    </div>
+
+    <div id="reticle" aria-hidden="true"></div>
+
+    <div id="overlay">
+      <div class="panel">
+        <div class="big">Click to focus</div>
+        <div class="small">
+          This is keyboard-controlled (no mouse look).
+          <br />
+          Arrow keys to move/turn, Space to shoot.
+        </div>
+        <button id="startBtn" type="button">Start</button>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

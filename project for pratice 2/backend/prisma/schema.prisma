@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  name       String
+  email      String       @unique
+  password   String
+  college    String?
+  year       String?
+  skills     String?
+  interests  String?
+  connectionsFrom Connection[] @relation("FromUser")
+  connectionsTo   Connection[] @relation("ToUser")
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  date        DateTime
+  description String?
+  link        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Connection {
+  id     Int  @id @default(autoincrement())
+  fromId Int
+  toId   Int
+  from   User @relation("FromUser", fields: [fromId], references: [id])
+  to     User @relation("ToUser", fields: [toId], references: [id])
+
+  @@unique([fromId, toId])
+}

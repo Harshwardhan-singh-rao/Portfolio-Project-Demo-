@@ -1,0 +1,396 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family:"poppins", sans-serif;
+}
+.nav{
+    position:fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+    width: 100%;
+    padding:1rem 2.5rem;
+    background:floralwhite;
+    z-index:10000;
+}
+.nav h1{
+    color:rgb(62, 0, 0);
+    font-size:1.7rem ;
+}
+#item{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#item li{
+    list-style:none;
+    padding-right: 50px;
+    color:rgb(56, 0, 0);
+}
+#item li a{
+    text-decoration: none;
+    font-size:1rem;
+    text-transform: uppercase;
+    color:rgba(55, 0, 0, 0.533);
+}
+#item li a:hover{
+    color:black;
+    cursor:pointer;
+}
+
+
+
+
+
+
+
+.back{
+    background-image: url(https://img.freepik.com/free-photo/athletic-man-woman-with-dumbbells_155003-11801.jpg?t=st=1714162841~exp=1714166441~hmac=27fc45e12e290f321ba8a377da5dacaa86fee13400b036f0c5eeccb9d2b4551f&w=1060);
+    width:100%;
+    height:100vh;
+    background-size: cover;
+    z-index:-1;
+}
+.back .overlay{
+    background:#ffffff;
+    width :100%;
+    height:100%;
+    opacity: 0.20;
+}
+.mid{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    text-align:center;
+}
+.mid p{
+    color: white;
+    font-size:3rem;
+    margin-bottom:1.4rem;
+}
+.mid h2{
+    color:white;
+    font-size:6rem;
+}
+.mid .btn a{
+    text-decoration: none;
+    text-transform:uppercase;
+
+}
+.mid .btn a.simple{
+        color:white;
+        font-weight:500;
+        padding:0.9rem 1.6rem;
+        font-size:2rem;
+
+}
+.mid .btn a.border{
+    color:white;
+    font-weight:500;
+    padding:0.9rem 1.6rem;
+    font-size:2rem;
+    border:1px solid rgb(0, 0, 0);
+    border-radius:3px;
+    outline: none;
+    border: none;
+}
+.mid .btn{
+    margin-top: 2rem;
+}
+.mid .btn a.simple:hover{
+    color:white;
+}
+.mid .btn a.border:hover {
+            background:black;
+            border: 1px solid blue;
+}
+.details{
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items: center;
+    padding:8rem 15rem;
+    background:rgb(250, 235, 235);
+}
+.details h3,h6,h5{
+    color:black;
+
+}
+.details .one{
+    width:45%;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.details .one h3{
+    font-size:3rem;
+    padding-bottom:1.5rem;
+}
+.details .one h6{
+    font-size:2.5rem;
+    font-weight:400;
+    padding-bottom:1.5rem;
+}
+.details .one p{
+    color: black;
+    font-size:2rem;
+    padding-bottom:3rem;
+}
+.details .one a{
+    color:white;
+    background:rgb(73, 5, 5);
+    padding:1rem 0;
+    text-decoration:none;
+    text-transform:upper;
+    text-align: center;
+    font-size:1.5rem;
+}
+.details .one a:hover{
+        background:rgb(255, 128, 128);
+        color:black;
+
+}
+.details .two{
+    width:45%;
+    border-left:1px solid darkgreen;
+    padding-left:4rem;
+}
+.details .two h3{
+    font-size:3rem;
+    
+}
+.details .two h5{
+    font-size:2.5rem;
+}
+.details .two p{
+    font-size:2rem;
+    margin-bottom:0.8rem;
+}
+.trainer{
+    background:#f9f9f9;
+    padding:8rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.trainer .about{
+        width:39%;
+        font-size:2rem;
+}
+.trainer .about h2{
+    color:#212529;
+    font-size:3rem;
+    padding-bottom:1.8rem;
+}
+.trainer .about p {
+    color:#530404;
+    font-size:2rem;
+}
+
+.trainer .people{
+    width:55%;
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.trainer .people .team1{
+    width:45%;
+    height:auto;
+    box-sizing: border-box;
+    background:white;
+    box-shadow:
+    4.5px 1.9px 3.6px rgba(0, 0, 0, 0.031),
+    12.5px 5.4px 10px rgba(0, 0, 0, 0.045),
+    30.1px 13px 24.1px rgba(0, 0, 0, 0.059),
+    100px 43px 80px rgba(0, 0, 0, 0.09)
+  ;
+
+}
+.trainer .people .team1 .img img{
+    width:100%;
+    object-fit:cover;
+}
+.name h3{
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    font-size:1.5rem;
+}
+.pro p{
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    font-size:1.3rem;
+}
+.class{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 8rem;
+}
+.class .paragraph {
+    font-size:1.7rem;
+    color:#530404;
+    padding-bottom: 6px;
+    text-align:center;
+}
+.training-subhead{
+    text-align: center;
+}
+.training-head{
+    text-align: center;
+    margin-top: 1rem;
+}
+.class .h2{
+    font-size:2.7rem;
+    font-weight: 700;
+    color:#530404;
+    padding-bottom: 50px;
+    text-align: center;
+}
+.class{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
+    /* max-width: 100%; */
+}
+.classes{
+    width: 330px;
+    padding: 1rem;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+.classes img{
+    width: 300px;
+}
+.trainingclassprice{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+}
+.training-masters h1{
+    padding-bottom: 0.4rem;
+}
+.training-masters h4{
+    padding-bottom: 1rem;
+}
+.trainer-pricing{
+    border: 2px solid;
+    color: white;
+    font-weight: 700;
+    outline: none;
+    padding: 0.7rem;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: orange;
+}
+.maintraining-section{
+    padding-left: 1rem;
+}
+.contact{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 3rem;
+    padding:8rem;
+}
+.contact .form{
+    width:100%;
+}
+.submit{
+    width: 100%;
+}
+.form input{
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+.submit_description{
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    resize: none;
+    font-size: 1.2rem;
+}
+.form_btns{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form_btn{
+    width: 100%;
+    border: 1px solid black;
+    background-color: black;
+    border-radius: 5px;
+    list-style: none;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 1rem 3rem;
+    font-size: 1.4rem;
+}
+.contact .form h2{
+    font-weight: 600;
+    font-size:2rem;
+    color:black;
+    padding-bottom: 2rem;
+    width:100%
+}
+.map_head{
+    font-weight: 600;
+    font-size:2rem;
+    color:black;
+    padding-bottom: 2rem;
+    width:100%
+}
+.map p{
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+.map img{
+    width: 100%;
+    object-fit: cover;
+}
+.footer_details{
+    border-top: 1px solid black;
+    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 2rem;
+    padding-bottom: 2rem;
+}
+.footer_copyright{
+    padding-left: 6rem;
+}
+.footer_contacts{
+    padding: 0 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.footer_link{
+    display: flex;
+    flex-direction: column;
+}
+.footer_link i{
+    color: red;
+    font-size: 1.6rem;
+}
+.footer_links{
+    display: flex;
+    gap: .5rem;
+}
+
+ul{
+    list-style: none;
+}

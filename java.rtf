@@ -1,0 +1,596 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.22621}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 1)if else and if else if\par
+import java.util.*;\par
+import java.lang.String;\par
+class main\{\par
+ public static void main(String[] args)\{\par
+ Scanner obj = new Scanner(System.in);\par
+ //If-else\par
+ System.out.println("Enter a number here ");\par
+ int num = obj.nextInt();\par
+ if(num%2 == 0)\{\par
+ System.out.println("The number is even");\par
+ \}\par
+ else\{\par
+ System.out.println("The number is odd");\par
+ \}\par
+ //If-else-if ladder\par
+ System.out.println("Enter one more here ");\par
+ int num2 = obj.nextInt();\par
+ if(num2>0)\{\par
+ System.out.println("The number is positive");\par
+ \}else if(num2<0)\{\par
+ System.out.println("The number is negative");\par
+ \}else\{\par
+ System.out.println("The number is zero");\par
+ \}\par
+ \}\par
+\}\par
+22. Events Programs\par
+import javax.swing.*;\par
+import java.awt.event.*;\par
+import java.lang.String;\par
+class KeyEventExample extends JFrame implements KeyListener\{\par
+public KeyEventExample()\{\par
+setTitle("Key Event Example");\par
+setSize(400,400);\par
+setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\par
+addKeyListener(this);\par
+setVisible(true);\par
+\}\par
+public void keyPressed(KeyEvent e)\{\par
+System.out.println("Key Pressed : " + e.getKeyChar());\par
+\}\par
+public void keyReleased(KeyEvent e)\{\par
+System.out.println("Key Released : " + e.getKeyChar());\par
+\}\par
+public void keyTyped(KeyEvent e)\{\par
+System.out.println("Key Typed : " + e.getKeyChar());\par
+\}\par
+public static void main(String[] args)\{\par
+new KeyEventExample();\par
+\}\par
+\}\par
+Q) switch case\par
+import java.util.Scanner;\par
+import java.lang.String;\par
+class main\{\par
+    public static void main(String[] args)\{\par
+        Scanner obj = new Scanner(System.in);\par
+        System.out.println("Enter a number between 0-5 : ");\par
+        int number = obj.nextInt();\par
+\par
+        switch(number)\{\par
+            case 0:\par
+                System.out.println("The number is 0");\par
+                break;\par
+            case 1:\par
+                System.out.println("The number is 1");\par
+                break;\par
+            case 2:\par
+                System.out.println("The number is 2");\par
+                break;    \par
+            case 3:\par
+                System.out.println("The number is 3");\par
+                break;\par
+            case 4:\par
+                System.out.println("The number is 4");\par
+                break;\par
+            case 5:\par
+                System.out.println("The number is 5");\par
+                break;\par
+            default:\par
+                System.out.println("The number is neither Greater than 5 or less than 0");\par
+                break;\par
+        \}\par
+\}\par
+\}\par
+Q) awt controls \par
+1) button awt control\par
+import java.awt.*;\par
+import java.awt.event.*;\par
+\par
+class ButtonExample extends Frame \{\par
+    public ButtonExample() \{\par
+        Button btn = new Button("Click Me");\par
+        btn.setBounds(100, 100, 80, 30);\par
+        btn.setBackground(Color.RED);\par
+        btn.setForeground(Color.WHITE);\par
+        btn.addActionListener(new ActionListener() \{\par
+            public void actionPerformed(ActionEvent e) \{\par
+                System.out.println("Button Clicked");\par
+            \}\par
+        \});\par
+        add(btn);\par
+        setSize(300, 200);\par
+        setLayout(null);\par
+        setVisible(true);\par
+\par
+        addWindowListener(new WindowAdapter() \{  // Using WindowAdapter instead\par
+            public void windowClosing(WindowEvent we) \{\par
+                System.exit(0);\par
+            \}\par
+        \});\par
+    \}\par
+\par
+    public static void main(String[] args) \{\par
+        new ButtonExample();\par
+    \}\par
+\}\par
+2) checkbox awt control\par
+import java.awt.*;\par
+import java.awt.event.*;\par
+\par
+class CheckBoxExample \{\par
+    public static void main(String[] args) \{\par
+        Frame frame = new Frame("CheckBox Example");\par
+        Checkbox checkbox = new Checkbox("Accept Terms & Conditions.."); // Corrected 'CheckBox' to 'Checkbox' (Java naming convention)\par
+        checkbox.setBounds(100, 100, 250, 50);\par
+        frame.add(checkbox);\par
+        frame.setSize(400, 400);\par
+        frame.setLayout(null);\par
+        frame.setVisible(true);\par
+\par
+        checkbox.addItemListener(new ItemListener() \{\par
+            public void itemStateChanged(ItemEvent e) \{  // Corrected method name\par
+                if (checkbox.getState()) \{\par
+                    System.out.println("CheckBox is Checked");\par
+                \} else \{\par
+                    System.out.println("CheckBox is Unchecked");\par
+                \}\par
+            \}\par
+        \});\par
+\par
+        frame.addWindowListener(new WindowAdapter() \{\par
+            public void windowClosing(WindowEvent we) \{\par
+                System.exit(0);\par
+            \}\par
+        \});\par
+    \}\par
+\}\par
+\par
+Q)While loop\par
+ while(num2 < 10)\{\par
+ System.out.print((num2 * 2) + " ");\par
+ num2++;\par
+ \}\par
+ System.out.println(" ");\par
+\par
+Q) Exponentiol handeling\par
+import java.lang.String;\par
+import java.util.Scanner;\par
+class main\{\par
+public static void main(String[] args)\{\par
+try\{\par
+Scanner obj = new Scanner(System.in);\par
+System.out.println("Enter the two numbers here " );\par
+int num1 = obj.nextInt();\par
+int num2 = obj.nextInt();\par
+\par
+int result = product(num1,num2);\par
+System.out.println("The Final result " + result);\par
+\}\par
+catch(ArithmeticException e)\{\par
+System.out.println("Error had occured" );\par
+\}\par
+System.out.println("Program continues further....");\par
+\}\par
+\par
+public static int product(int x,int y) throws ArithmeticException\{\par
+return x/y;\par
+\}\par
+\}\par
+Q) For loop\par
+ for(int i = 0; i < num1; i++)\{\par
+ System.out.print((i+1) + " ");\par
+ \}\par
+ System.out.println(" ");\par
+Q)Applets java\par
+import javax.swing.*;\par
+import java.awt.*;\par
+import java.lang.String;\par
+class HelloApplet extends JPanel\{\par
+public void paintComponent(Graphics g)\{\par
+super.paintComponent(g);\par
+g.drawString("Hello JFrame !!! Welcome to Java Programming ", 50,100);\par
+\}\par
+public static void main(String[] args)\{\par
+JFrame frame = new JFrame("Applets Example in JFrame");\par
+HelloApplet applet = new HelloApplet();\par
+frame.add(applet);\par
+frame.setSize(500,500);\par
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\par
+frame.setVisible(true);\par
+\}\par
+\}\par
+\par
+Q) Do-while loop\par
+ do\{\par
+ System.out.print(num3 + " ");\par
+ num3++;\par
+ \}while(num3 < 20);\par
+ System.out.println(" ");\par
+Q) creating thread by extending threads\par
+import java.lang.String;\par
+class MyThread extends Thread\{\par
+public void run()\{\par
+for(int i=1;i<=5;i++)\{\par
+System.out.println(getName() + "is running : " +  i);\par
+try\{\par
+Thread.sleep(1000);\par
+\}catch(InterruptedException e)\{\par
+e.printStackTrace();\par
+\}\par
+\}\par
+\}\par
+\}\par
+class main\{\par
+public static void main(String[] args)\{\par
+MyThread t1 = new MyThread();\par
+MyThread t2 = new MyThread();\par
+t1.start();\par
+t2.start();\par
+\}\par
+\}\par
+\par
+Q) class concept\par
+import java.util.Scanner;\par
+class StudentDetails\par
+\{\par
+String name;\par
+int roll_num;\par
+String course;\par
+Scanner obj = new Scanner(System.in);\par
+void getDetails()\par
+\{\par
+System.out.println("Enter your name here: ");\par
+name = obj.nextLine();\par
+System.out.println("Enter your Course here: ");\par
+course = obj.nextLine();\par
+System.out.println("Enter your roll number  here: ");\par
+roll_num = obj.nextInt();\par
+\}\par
+void displayDetails()\{\par
+System.out.println("Hello Iam " + name + " from " + course + ". My roll number is " + roll_num );\par
+\}\par
+\}\par
+class Main\{\par
+public static void main(String[] args)\{\par
+StudentDetails s1 = new StudentDetails();\par
+s1.getDetails();\par
+s1.displayDetails();\par
+\}\par
+\}\par
+\par
+Q) interfaces\par
+import java.lang.String;\par
+interface action\{\par
+void display();\par
+\}\par
+class person implements action\{\par
+public void display()\{\par
+System.out.println("Hello Rishab ");\par
+\}\par
+\}\par
+class main\{\par
+public static void main(String[] args)\{\par
+person p = new person();\par
+p.display();\par
+\}\par
+\}\par
+\par
+Q)demonstrate method\par
+import java.util.Scanner;\par
+class Employee\par
+\{\par
+void display(String name , int age , String depart)\par
+\{\par
+System.out.println(name + " of age " + age + " Joined today at " + depart + " Department");\par
+\}\par
+\}\par
+class Main\{\par
+public static void main(String[] args)\par
+\{\par
+Employee emp = new Employee();\par
+Scanner obj = new Scanner(System.in);\par
+System.out.println("Enter employee name: ");\par
+String name = obj.nextLine();\par
+System.out.println("Enter employee department: ");\par
+String depart = obj.nextLine();\par
+System.out.println("Enter employee age: ");\par
+int age = obj.nextInt();\par
+emp.display(name,age,depart);\par
+\}\par
+\}\par
+Q) runnable interface\par
+class MyRunnable implements Runnable \{\par
+    public void run() \{\par
+        for (int i = 1; i <= 5; i++) \{\par
+            System.out.println(Thread.currentThread().getName() + " is running : " + i);\par
+        try \{\par
+            Thread.sleep(1000);  // Sleep after the loop\par
+        \} catch (InterruptedException e) \{\par
+            e.printStackTrace();\par
+        \}\par
+    \}\par
+    \}\par
+\}\par
+class RunnableExample \{\par
+    public static void main(String[] args) \{\par
+        MyRunnable runnable = new MyRunnable();\par
+        Thread t1 = new Thread(runnable);\par
+        Thread t2 = new Thread(runnable);\par
+        t1.start();\par
+        t2.start();\par
+    \}\par
+\}\par
+Q) method overloading \par
+import java.util.Scanner;\par
+class Areas\{\par
+int length;\par
+int breadth;\par
+int side;\par
+double radius;\par
+void Area(int length , int breadth)\{\par
+System.out.println("Area of Rectangle : " + (length*breadth)); \par
+\}\par
+void Area(int side)\{\par
+System.out.println("Area of Square : " + (side*side)); \par
+\}\par
+void Area(double radius)\{\par
+System.out.println("Area of Circle : " + (3.14*radius*radius)); \par
+\}\par
+\}\par
+class main\par
+\{\par
+public static void main(String[] args)\{\par
+Areas area = new Areas();\par
+area.Area(5,10);\par
+area.Area(15);\par
+area.Area(12.5);\par
+\}\par
+\}\par
+Q) method overriding\par
+import java.util.Scanner;\par
+import java.lang.String;\par
+class person\par
+\{\par
+String name;\par
+String cmp_name;\par
+void get_details()\{\par
+Scanner obj = new Scanner (System.in);\par
+System.out.println("Enter the name here: ");\par
+name = obj.nextLine();\par
+System.out.println("Enter the Company name here: ");\par
+ cmp_name = obj.nextLine();\par
+\}\par
+void display_details()\par
+\{\par
+System.out.println("Hello , Myself " + name + " from " + cmp_name + " company ");\par
+\}\par
+\}\par
+class Student extends person\par
+\{\par
+String stu_name;\par
+String course_name ;\par
+Scanner obj = new Scanner (System.in);\par
+void get_details()\{\par
+System.out.println("Enter the student name here: ");\par
+ stu_name = obj.nextLine();\par
+\par
+System.out.println("Enter the course name here: ");\par
+ course_name = obj.nextLine();\par
+\}\par
+void display_details()\par
+\{\par
+System.out.println("Hello , Myself " + stu_name + " from " + course_name + " course ");\par
+\}\par
+\}\par
+class main\par
+\{\par
+public static void main(String[] args)\{\par
+person obj2 = new Student();\par
+obj2.get_details();\par
+obj2.display_details();\par
+\}\par
+\}\par
+Q) constructor \par
+import java.util.Scanner;\par
+class Area\{\par
+int length;\par
+int breadth;Area(int length , int breadth)\{\par
+System.out.println("Area of Rectangle : " + (length*breadth)); \par
+\}\par
+\}\par
+class main\par
+\{\par
+public static void main(String[] args)\{\par
+Area area = new Area(12,30);\par
+\}\par
+\}\par
+Q) abstract class\par
+import java.util.Scanner;\par
+import java.lang.String;\par
+abstract class Shape\{  //abstract class\par
+abstract double area();  //abstract method\par
+\}\par
+class Circle extends Shape\{\par
+double radius;\par
+public Circle(double radius)\{\par
+this.radius = radius;\par
+\}\par
+double area()\{\par
+return Math.PI*radius*radius;\par
+\}\par
+\}\par
+class main\{\par
+public static void main(String[] args)\{\par
+Scanner obj = new Scanner(System.in);\par
+System.out.println("Enter the radius of the circle: ");\par
+double radius = obj.nextDouble();\par
+Circle cr = new Circle(radius);\par
+System.out.println("The area of the circle with radius  " + radius + " is : " + cr.area()); \par
+\}\par
+\}\par
+Q) constructor overloading \par
+import java.util.Scanner;\par
+class Area\{\par
+int length;\par
+int breadth;\par
+int side;\par
+double base,height;\par
+ Area(int length , int breadth)\{\par
+System.out.println("Area of Rectangle : " + (length*breadth)); \par
+\}\par
+ Area(int side)\{\par
+System.out.println("Area of Square : " + (side*side)); \par
+\}\par
+Area(double base,double height)\{\par
+System.out.println("Area of Triangle : " + (0.5 *base*height)); \par
+\}\par
+\}\par
+class main\par
+\{\par
+public static void main(String[] args)\{\par
+Area area1 = new Area(5,10);\par
+Area area2 = new Area(12);\par
+Area area3 = new Area(5.5,8.5);\par
+\}\par
+\}\par
+Q) multidimensional array\par
+import java.util.Scanner;\par
+class main\{\par
+public static void main(String[] args)\{\par
+Scanner obj = new Scanner (System.in);\par
+System.out.println("Multi-Dimensional Array");\par
+System.out.println("Enter the number of Rows: ");\par
+int rows = obj.nextInt();\par
+System.out.println("Enter the number of Columns: ");\par
+int cols = obj.nextInt();\par
+int[][] arr = new int[rows][cols];\par
+System.out.println("Enter the elements into the 2D Array: ");\par
+for(int i=0;i<rows;i++)\{\par
+for(int j=0;j<cols;j++)\{\par
+arr[i][j] = obj.nextInt();\par
+\}\par
+\}\par
+System.out.println("2D Array: ");\par
+for(int i=0;i<rows;i++)\{\par
+for(int j=0;j<cols;j++)\{\par
+System.out.print(arr[i][j] + " ");\par
+\}\par
+System.out.println(" ");\par
+\}\par
+\}\par
+\}\par
+Q) demonstarte array\par
+import java.util.Scanner;\par
+class main\par
+\{\par
+public static void main(String[] args)\{\par
+Scanner obj = new Scanner(System.in);\par
+System.out.println("Enter the size of the array: ");\par
+int num = obj.nextInt();\par
+int[] arr = new int[num];\par
+System.out.println("Enter the elements into the array: ");\par
+for(int i=0;i<num;i++)\{\par
+arr[i] = obj.nextInt();\par
+\}\par
+System.out.println("Entered array elements are: ");\par
+for(int i=0;i<num;i++)\{\par
+System.out.print(arr[i] + " " );\par
+\}\par
+\}\par
+\}\par
+Q) applets \par
+import javax.swing.*;\par
+import java.awt.*;\par
+import java.lang.String;\par
+class HelloApplet extends JPanel\{\par
+public void paintComponent(Graphics g)\{\par
+super.paintComponent(g);\par
+g.drawString("Hello JFrame !!! Welcome to Java Programming ", 50,100);\par
+\}\par
+public static void main(String[] args)\{\par
+JFrame frame = new JFrame("Applets Example in JFrame");\par
+HelloApplet applet = new HelloApplet();\par
+frame.add(applet);\par
+frame.setSize(500,500);\par
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\par
+frame.setVisible(true);\par
+\}\par
+\}\par
+Q) multidimensional array\par
+import java.util.Scanner;\par
+class main\{\par
+public static void main(String[] args)\{\par
+Scanner obj = new Scanner (System.in);\par
+System.out.println("Multi-Dimensional Array");\par
+System.out.println("Enter the number of Rows: ");\par
+int rows = obj.nextInt();\par
+System.out.println("Enter the number of Columns: ");\par
+int cols = obj.nextInt();\par
+int[][] arr = new int[rows][cols];\par
+System.out.println("Enter the elements into the 2D Array: ");\par
+for(int i=0;i<rows;i++)\{\par
+for(int j=0;j<cols;j++)\{\par
+arr[i][j] = obj.nextInt();\par
+\}\par
+\}\par
+System.out.println("2D Array: ");\par
+for(int i=0;i<rows;i++)\{\par
+for(int j=0;j<cols;j++)\{\par
+System.out.print(arr[i][j] + " ");\par
+\}\par
+System.out.println(" ");\par
+\}\par
+\}\par
+\}\par
+Q) console input\par
+import java.util.Scanner;\par
+import java.lang.String;\par
+class main\{\par
+    public static void main(String[] args)\{\par
+        Scanner obj = new Scanner(System.in);\par
+        System.out.println("Enter your name : ");\par
+        String name = obj.nextLine();\par
+        System.out.println("Hello " + name + " welcome to Java Programming");\par
+    \}\par
+\}\par
+Q) string \par
+import java.util.Scanner;\par
+import java.lang.String;\par
+class M\{\par
+public static void main (String [] args)\par
+\{\par
+Scanner obj = new Scanner (System.in);\par
+System.out.println("Enter the Student name here: ");\par
+String name = obj.nextLine();\par
+System.out.println("Enter the College name here: ");\par
+String college = obj.nextLine();\par
+System.out.println("Hello Iam " + name + " from " + college + " College.");\par
+\}\par
+\}\par
+Q) inheritance \par
+import java.util.Scanner;\par
+import java.lang.String;\par
+class student\{\par
+void student_details(String name , String course)\{\par
+System.out.println("Hello Iam " + name + " from " + course + " course.");\par
+\}\par
+\}\par
+class employee extends student\{\par
+void display(String name)\{\par
+System.out.println( name + "Is working today " );\par
+\}\par
+\}\par
+class main\{\par
+public static void main(String[] args)\{\par
+employee emp = new employee();\par
+emp.student_details("Rishab","BCA");\par
+emp.display("Tommy ");\par
+\}\par
+\}\par
+}
+ 

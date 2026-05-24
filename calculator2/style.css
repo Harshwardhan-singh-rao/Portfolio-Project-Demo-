@@ -1,0 +1,66 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}   
+.container{
+    width: 100vw;
+    height: 100vh;
+    background-color: #3C3C3C;
+    /* background-image: url("https://img.freepik.com/free-photo/top-view-desk-concept-with-notepad_23-2148604955.jpg?t=st=1713967627~exp=1713971227~hmac=c87e532d20054d5d66d3106557d0d63389b44e6f108eb1dc9efd22447309444d&w=1060"); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container form{
+    /* width: 550px; */
+    padding: 20px;
+    background-color: #3B4454;
+    border-radius: 10px;
+}
+.buttons{
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    margin: 10px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    box-shadow: -5px -5px 15px rgba(255,255, 255, 0.2),5px 5px 15px rgba(0,0, 0, 0.5);
+    font-size: 1.40rem;
+    font-weight: 550;
+    cursor: pointer;
+    background-color: #3B4454;
+    color: white;
+}
+.display{
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0px;
+    width: 100%;
+}
+form .display input{
+    flex: 1;
+    font-size: 30px;
+    text-align: right;
+    width: 140px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    height: 4.5rem;
+    /* cursor: pointer; */
+    font-weight: 600;
+    padding: 10px;
+    box-shadow: none;
+    background-color: transparent;
+    border: 1px solid white ;
+    color: white;
+}
+.assign{
+    width: 145px;
+}
+.operators{
+    color:#33ffd8;
+}
